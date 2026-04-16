@@ -1,0 +1,22 @@
+# python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.exe
+*.spec
+
+# виртуал окружение
+venv/
+.venv/
+env/
+
+# Файл с личными данными
+notes.json
+
+#настройки IDE
+.vscode/
+.idea/
