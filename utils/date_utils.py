@@ -38,11 +38,16 @@ def get_time_left(deadline: str) -> str:
 
 
 def validate_deadline(deadline: str) -> bool:
-    #проверяет на соответствие строку, формату дедлайна
     if not deadline:
         return True
     try:
+        #формат с временем
         datetime.strptime(deadline, "%d.%m.%Y %H:%M")
         return True
     except:
-        return False
+        try:
+            #формат только с датой
+            datetime.strptime(deadline, "%d.%m.%Y")
+            return True
+        except:
+            return False

@@ -3,10 +3,6 @@ from tkinter import ttk
 from datetime import datetime
 import calendar
 
-from utils.config import BG_COLOR, TEXT_COLOR, CARD_DEFAULT_COLOR
-from utils.date_utils import validate_deadline
-
-
 class CalendarView:
     def __init__(self, parent, notes, on_note_selected_callback=None):
         self.notes = notes
@@ -16,7 +12,7 @@ class CalendarView:
         self.current_year = now.year
         self.current_month = now.month
 
-        self.frame = ttk.Frame(parent)
+        self.frame = ttk.Frame(parent, style="Brown.TFrame")
         self.frame.pack(fill="both", expand=True)
 
         self.build_ui()
@@ -24,7 +20,7 @@ class CalendarView:
         self.refresh_notes_list()
 
     def build_ui(self):
-        top = tk.Frame(self.frame, bg=BG_COLOR)
+        top = tk.Frame(self.frame, bg="#000000")
         top.pack(fill="x", pady=10)
 
         tk.Button(
@@ -32,7 +28,7 @@ class CalendarView:
             text="◀",
             command=self.prev_month,
             width=5,
-            bg=CARD_DEFAULT_COLOR,
+            bg="#3E1A12",
             fg="white",
             relief="flat"
         ).pack(side="left", padx=10)
@@ -40,7 +36,7 @@ class CalendarView:
         self.month_label = tk.Label(
             top,
             text="",
-            bg=BG_COLOR,
+            bg="#000000",
             fg="white",
             font=("Arial", 16, "bold")
         )
@@ -51,18 +47,18 @@ class CalendarView:
             text="▶",
             command=self.next_month,
             width=5,
-            bg=CARD_DEFAULT_COLOR,
+            bg="#3E1A12",
             fg="white",
             relief="flat"
         ).pack(side="right", padx=10)
 
-        self.calendar_frame = tk.Frame(self.frame, bg=BG_COLOR)
+        self.calendar_frame = tk.Frame(self.frame, bg="#3E362E")
         self.calendar_frame.pack(fill="both", expand=True, padx=10, pady=5)
 
         notes_label = tk.Label(
             self.frame,
             text="📌 Заметки на выбранный день:",
-            bg=BG_COLOR,
+            bg="#3E362E",
             fg="white",
             font=("Arial", 11, "bold"),
             anchor="w"
@@ -72,7 +68,7 @@ class CalendarView:
         self.notes_box = tk.Text(
             self.frame,
             height=12,
-            bg=CARD_DEFAULT_COLOR,
+            bg="#3E362E",
             fg="white",
             font=("Arial", 11),
             wrap="word",
@@ -105,7 +101,7 @@ class CalendarView:
             tk.Label(
                 self.calendar_frame,
                 text=day,
-                bg=BG_COLOR,
+                bg="#3E362E",
                 fg="#aaa",
                 font=("Arial", 10, "bold"),
                 width=10,
@@ -126,8 +122,11 @@ class CalendarView:
                 if notes_count > 0:
                     bg_color = "#3a6ea5"
                     text_color = "white"
+                elif col in (5, 6):  # суббота и воскресенье
+                    bg_color = "#4a2020"
+                    text_color = "#ff6666"
                 else:
-                    bg_color = CARD_DEFAULT_COLOR
+                    bg_color = "#2E2720"
                     text_color = "#ccc"
 
                 text = str(day)
@@ -225,6 +224,6 @@ class CalendarView:
 
 def add_calendar_tab(notebook, notes, on_note_selected_callback=None):
     calendar_frame = ttk.Frame(notebook)
-    notebook.add(calendar_frame, text="📅 Календарь")
+    notebook.add(calendar_frame, text="📅 Календарь", padding=(5, 5, 5, 5))
     calendar_view = CalendarView(calendar_frame, notes, on_note_selected_callback)
     return calendar_view

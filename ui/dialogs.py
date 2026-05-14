@@ -3,7 +3,7 @@
 import tkinter as tk
 from tkinter import messagebox, simpledialog, ttk
 from utils.date_utils import auto_format_date_live, validate_deadline
-from utils.config import BG_COLOR, BUTTON_ADD_COLOR
+from utils.config import BG_COLOR, BUTTON_ADD_COLOR, CARD_DEFAULT_COLOR
 
 def open_add_note_dialog(parent, on_save_callback):
 
@@ -13,14 +13,28 @@ def open_add_note_dialog(parent, on_save_callback):
     win = tk.Toplevel(parent)
     win.title("Новая заметка")
     win.geometry("420x320")
-    win.configure(bg=BG_COLOR)
+    win.configure(bg="#3E1A12")
 
-    tk.Label(win, text="Текст", bg=BG_COLOR, fg="white").pack()
-    text_entry = tk.Text(win, height=6, font=("Arial", 12))
+    tk.Label(win, text="Текст", bg="#3E1A12", fg="white", font=("Arial", 11)).pack(anchor="w", padx=10, pady=(10, 0))
+    text_entry = tk.Text(
+        win,
+        height=6,
+        font=("Arial", 12),
+        bg=CARD_DEFAULT_COLOR,
+        fg="white",
+        highlightthickness=2,
+        highlightbackground="#5C3A2E"
+    )
     text_entry.pack(fill="x", padx=10)
-
-    tk.Label(win, text="Дата (цифры → автоформат)", bg=BG_COLOR, fg="white").pack()
-    deadline_entry = tk.Entry(win, font=("Arial", 12))
+    tk.Label(win, text="Дата (цифры → автоформат)", bg="#3E1A12", fg="white", font=("Arial", 11)).pack(anchor="w", padx=10, pady=(10, 0))
+    deadline_entry = tk.Entry(
+        win,
+        font=("Arial", 12),
+        bg=CARD_DEFAULT_COLOR,
+        fg="white",
+        highlightthickness=2,
+        highlightbackground="#5C3A2E"
+    )
     deadline_entry.pack(fill="x", padx=10)
 
     def on_key_release(event):
@@ -29,6 +43,7 @@ def open_add_note_dialog(parent, on_save_callback):
         deadline_entry.insert(0, formatted)
 
     deadline_entry.bind("<KeyRelease>", on_key_release)
+
 
     def save():
         text = text_entry.get("1.0", "end").strip()
@@ -43,7 +58,19 @@ def open_add_note_dialog(parent, on_save_callback):
 
         on_save_callback(text, deadline)
         win.destroy()
-    ttk.Button(win, text="Сохранить", style="Add.TButton", command=save).pack(pady=10)
+#кнопка сохранить
+    save_btn = tk.Button(
+        win,
+        text="Сохранить",
+        bg="#8B3A2F",
+        fg="white",
+        font=("Arial", 11, "bold"),
+        relief="flat",
+        bd=0,
+        padx=20, pady=8,
+        command=save
+    )
+    save_btn.pack(pady=10)
 
 def open_edit_text_dialog(parent, initial_text, on_confirm_callback):
 
