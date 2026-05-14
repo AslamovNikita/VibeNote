@@ -22,21 +22,6 @@ def auto_format_date_live(raw: str) -> str:
 
     return formatted
 
-
-def get_time_left(deadline: str) -> str:
-    #возвращает строку с оставшимся временем до дедлайна
-    if not deadline:
-        return "без срока"
-    try:
-        d = datetime.strptime(deadline, "%d.%m.%Y %H:%M")
-        diff = d - datetime.now()
-        if diff.total_seconds() < 0:
-            return "⛔ просрочено"
-        return f"{diff.days}д {diff.seconds // 3600}ч"
-    except:
-        return "?"
-
-
 def validate_deadline(deadline: str) -> bool:
     if not deadline:
         return True
@@ -51,3 +36,19 @@ def validate_deadline(deadline: str) -> bool:
             return True
         except:
             return False
+
+def get_time_left(deadline: str) -> str:
+    if not deadline:
+        return "без срока"
+    try:
+        d = datetime.strptime(deadline, "%d.%m.%Y %H:%M")
+        diff = d - datetime.now()
+        if diff.total_seconds() < 0:
+            return "⛔ просрочено"
+        return f"{diff.days}д {diff.seconds // 3600}ч"
+    except:
+        try:
+            d = datetime.strptime(deadline, "%d.%m.%Y")
+            return f"до {d.strftime('%d.%m.%Y')}"
+        except:
+            return "?"
